@@ -1,0 +1,223 @@
+	2-way set associative entries
+	64 sets total
+	2 words per set
+
+
+Results for Each Reference
+
+Access Address    Tag   Index Offset Result Memrefs
+------ -------- ------- ----- ------ ------ -------
+  read      3d1       1    58      1   MISS       1
+  read      3d4       1    58      4    HIT       0
+  read      7d0       3    58      0   MISS       1
+  read      3d5       1    58      5    HIT       0
+  read      7d6       3    58      6    HIT       0
+  read      fd4       7    58      4   MISS       1
+  read      3d5       1    58      5   MISS       1
+  read      7d0       3    58      0   MISS       1
+
+
+Simulation Summary Statistics
+-----------------------------
+Total hits                : 3
+Total misses              : 5
+Total accesses            : 8
+Total memory references   : 5
+Hit  ratio                : 0.375000
+Miss ratio                : 0.625000
+
+
+   Final Data Cache State
+-----------------------------
+set 0
+   line 0 = invalid
+   line 1 = invalid
+set 1
+   line 0 = invalid
+   line 1 = invalid
+set 2
+   line 0 = invalid
+   line 1 = invalid
+set 3
+   line 0 = invalid
+   line 1 = invalid
+set 4
+   line 0 = invalid
+   line 1 = invalid
+set 5
+   line 0 = invalid
+   line 1 = invalid
+set 6
+   line 0 = invalid
+   line 1 = invalid
+set 7
+   line 0 = invalid
+   line 1 = invalid
+set 8
+   line 0 = invalid
+   line 1 = invalid
+set 9
+   line 0 = invalid
+   line 1 = invalid
+set 10
+   line 0 = invalid
+   line 1 = invalid
+set 11
+   line 0 = invalid
+   line 1 = invalid
+set 12
+   line 0 = invalid
+   line 1 = invalid
+set 13
+   line 0 = invalid
+   line 1 = invalid
+set 14
+   line 0 = invalid
+   line 1 = invalid
+set 15
+   line 0 = invalid
+   line 1 = invalid
+set 16
+   line 0 = invalid
+   line 1 = invalid
+set 17
+   line 0 = invalid
+   line 1 = invalid
+set 18
+   line 0 = invalid
+   line 1 = invalid
+set 19
+   line 0 = invalid
+   line 1 = invalid
+set 20
+   line 0 = invalid
+   line 1 = invalid
+set 21
+   line 0 = invalid
+   line 1 = invalid
+set 22
+   line 0 = invalid
+   line 1 = invalid
+set 23
+   line 0 = invalid
+   line 1 = invalid
+set 24
+   line 0 = invalid
+   line 1 = invalid
+set 25
+   line 0 = invalid
+   line 1 = invalid
+set 26
+   line 0 = invalid
+   line 1 = invalid
+set 27
+   line 0 = invalid
+   line 1 = invalid
+set 28
+   line 0 = invalid
+   line 1 = invalid
+set 29
+   line 0 = invalid
+   line 1 = invalid
+set 30
+   line 0 = invalid
+   line 1 = invalid
+set 31
+   line 0 = invalid
+   line 1 = invalid
+set 32
+   line 0 = invalid
+   line 1 = invalid
+set 33
+   line 0 = invalid
+   line 1 = invalid
+set 34
+   line 0 = invalid
+   line 1 = invalid
+set 35
+   line 0 = invalid
+   line 1 = invalid
+set 36
+   line 0 = invalid
+   line 1 = invalid
+set 37
+   line 0 = invalid
+   line 1 = invalid
+set 38
+   line 0 = invalid
+   line 1 = invalid
+set 39
+   line 0 = invalid
+   line 1 = invalid
+set 40
+   line 0 = invalid
+   line 1 = invalid
+set 41
+   line 0 = invalid
+   line 1 = invalid
+set 42
+   line 0 = invalid
+   line 1 = invalid
+set 43
+   line 0 = invalid
+   line 1 = invalid
+set 44
+   line 0 = invalid
+   line 1 = invalid
+set 45
+   line 0 = invalid
+   line 1 = invalid
+set 46
+   line 0 = invalid
+   line 1 = invalid
+set 47
+   line 0 = invalid
+   line 1 = invalid
+set 48
+   line 0 = invalid
+   line 1 = invalid
+set 49
+   line 0 = invalid
+   line 1 = invalid
+set 50
+   line 0 = invalid
+   line 1 = invalid
+set 51
+   line 0 = invalid
+   line 1 = invalid
+set 52
+   line 0 = invalid
+   line 1 = invalid
+set 53
+   line 0 = invalid
+   line 1 = invalid
+set 54
+   line 0 = invalid
+   line 1 = invalid
+set 55
+   line 0 = invalid
+   line 1 = invalid
+set 56
+   line 0 = invalid
+   line 1 = invalid
+set 57
+   line 0 = invalid
+   line 1 = invalid
+set 58
+   line 0 = byte addresses 7d0-7d7, tag 3, lru 0
+   line 1 = byte addresses 3d0-3d7, tag 1, lru 1
+set 59
+   line 0 = invalid
+   line 1 = invalid
+set 60
+   line 0 = invalid
+   line 1 = invalid
+set 61
+   line 0 = invalid
+   line 1 = invalid
+set 62
+   line 0 = invalid
+   line 1 = invalid
+set 63
+   line 0 = invalid
+   line 1 = invalid

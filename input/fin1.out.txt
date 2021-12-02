@@ -1,0 +1,30 @@
+Cache Configuration
+
+	1-way set associative entries
+	64 sets total
+	4 words per set
+
+	DIRECT MAPPED CACHE
+
+Results for Each Reference
+
+Access Address    Tag   Index Offset Result Memrefs
+------ -------- ------- ----- ------ ------ -------
+ write      12c       0    18     12   MISS       1
+  read      130       0    19      0   MISS       1
+  read     1134       4    19      4   MISS       1
+ write     1138       4    19      8    HIT       0
+ write     2130       8    19      0   MISS       2
+  read     2134       8    19      4    HIT       0
+  read      130       0    19      0   MISS       2
+
+
+Simulation Summary Statistics
+-----------------------------
+Total hits                : 2
+Total misses              : 5
+Total accesses            : 7
+Total memory references   : 7
+Hit  ratio                : 0.285714
+Miss ratio                : 0.714286
+
