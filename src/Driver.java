@@ -30,6 +30,7 @@ public class Driver {
 			}
 		}
 		
+		//If there are no command line arguments, continue
 		else {
 			Simulator sim = new Simulator();
 			sim.go("");
