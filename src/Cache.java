@@ -15,7 +15,8 @@ public class Cache {
 	public Cache(int numSets, int setSize, int lineSize) {
 		this.numSets = numSets;
 		this.setSize = setSize;
-	
+		this.lineSize = lineSize;
+	}
 
 	/**
 	 * @return the numSets
