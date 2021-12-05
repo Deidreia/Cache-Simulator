@@ -1,6 +1,3 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -13,9 +10,19 @@ public class Simulator {
 	
 	/**
 	 * @param scanner
+	 * @throws IOException 
 	 */
 	void readFile(Scanner scanner) {
-		//File input = new File();
+		String numSets = scanner.nextLine();
+		String setSize = scanner.nextLine();
+		String lineSize = scanner.nextLine();
+		
+		int newNumSets = Integer.parseInt(numSets.replaceAll("[^0-9]", ""));
+		int newSetSize = Integer.parseInt(setSize.replaceAll("[^0-9]", ""));
+		int newLineSize = Integer.parseInt(lineSize.replaceAll("[^0-9]", ""));
+		
+		Cache cache = new Cache(newNumSets, newSetSize, newLineSize);
+		
 	}
 	
 	
@@ -31,13 +38,15 @@ public class Simulator {
 	 */
 	void go(String finalState){
 		Scanner scanner = new Scanner(System.in);
-		readFile(scanner);
+			readFile(scanner);
 		
-		System.out.println("Look here: " + finalState);
 		
 		if(finalState.equals("f") || finalState.equals("F")) {
 			finalCacheState();
 		}
+		
+		scanner.close();
+		
 	}
 	
 	
