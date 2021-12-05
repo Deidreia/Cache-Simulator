@@ -5,11 +5,10 @@
  */
 public class Set {
 	int index;
-	Line line;
+	Line[] lines;
 	
-	public Set(int index, int tag, int offset) {
-		this.index = index;
-		this.lint = new Line(tag, offset);
+	public Set(int lineNum) {
+		this.lines = new Lines[lineNum];
 	}
 	
 	public void setIndex(int index) {

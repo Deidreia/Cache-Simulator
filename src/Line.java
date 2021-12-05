@@ -9,9 +9,7 @@ public class Line {
 	int tag = null;
 	int offset = 0;
 	
-	public Line (int tag, int offset) {
-		this.tag = tag;
-		this.offset = offset;
+	public Line () {
 	}
 	
 	public void validate() {
