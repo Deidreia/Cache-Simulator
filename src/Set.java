@@ -8,7 +8,7 @@ public class Set {
 	Line[] lines;
 	
 	public Set(int lineNum) {
-		this.lines = new Lines[lineNum];
+		this.lines = new Line[lineNum];
 	}
 	
 	public void setIndex(int index) {

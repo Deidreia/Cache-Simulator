@@ -39,7 +39,7 @@ public class Cache {
 	public void nextAddress(int tag, int index, int offset, char type) {
 	
 	
-	
+	}
 	
 	
 	
