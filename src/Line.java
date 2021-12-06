@@ -8,6 +8,7 @@ public class Line {
 	int dirty = 0;
 	int tag = null;
 	int offset = 0;
+	int counter = 0;
 	
 	public Line () {
 	}
@@ -48,5 +49,9 @@ public class Line {
 	
 	public void setOffset(int offset) {
 		this.offset = offset;
+	}
+	
+	public void setCounter(int count) {
+		this.counter = count;
 	}
 }
