@@ -28,7 +28,7 @@ public class CSet {
 		this.counter = count;
 	}
 	
-	public boolean nextAdd(int tag, int offset, char type) {
+	public int nextAdd(int tag, int offset, char type) {
 		int lineIndex = -1;//tracks which line in the lines array is going to be modified
 		for (int i = 0; i < lines.length; i++) {
 			if(lines[i].tag == tag)
@@ -42,9 +42,13 @@ public class CSet {
 			}
 		}
 		lines[lineIndex].setCounter(counter);
-		boolean result = false;
-		if ((lines[lineIndex].getTag() == tag) && (lines[lineIndex].isValid()))
-			result = true;
+		int result = 0;
+		if ((lines[lineIndex].getTag() == tag) && (lines[lineIndex].isValid())) {
+			result += 1;
+			lines[lineIndex].makeDirty();
+		}
+		if (type == 'W' && lines[lineIndex].isDirty())
+			result +=1;
 		lines[lineIndex].setTag(tag);
 		lines[lineIndex].setOffset(offset);
 		return result;
