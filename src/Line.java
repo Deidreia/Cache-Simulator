@@ -6,7 +6,7 @@
 public class Line {
 	int valid = 0;
 	int dirty = 0;
-	int tag = null;
+	int tag = 0;
 	int offset = 0;
 	int counter = 0;
 	

@@ -1,6 +1,6 @@
-/**
- * 
- */
+
+
+import java.util.Set;
 
 /**
  * @author Daniel Foster
@@ -9,13 +9,13 @@
  */
 public class Cache {
 	int lineSize;
-	Set[] sets;
 	int counter = 0;
+	CSet[] sets;
 	
 	public Cache(int numSets, int setSize, int lineSize) {
-		sets = new Set[numSets];
+		this.sets = new CSet[numSets];
 		for (int i = 0; i < numSets; i++) {
-			sets[i] = new Set(setSize);
+			sets[i] = new CSet(setSize);
 		}
 		this.lineSize = lineSize;
 	}
@@ -52,42 +52,9 @@ public class Cache {
 			}
 		}
 		sets[setIndex].setCounter(counter);
-		return sets[setIndex].nextAddress(int tag, int offset, char type);
+		CSet current = sets[setIndex];
+		return current.nextAdd(tag, offset, type);
 	}
-	
-	
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 }
