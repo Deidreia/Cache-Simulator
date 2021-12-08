@@ -10,7 +10,10 @@ public class Line {
 	int offset = 0;
 	int counter = 0;
 	
-	public Line () {
+	public Line (int tag, int offset) {
+		this.tag = tag;
+		this.offset = offset;
+		this.validate();
 	}
 	
 	public void validate() {

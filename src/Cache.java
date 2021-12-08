@@ -55,6 +55,7 @@ public class Cache {
 				setIndex = i;
 		}
 		if (setIndex == -1) {//if there was no set found with a matching index
+			setIndex = 0;
 			for (int i = 0; i < sets.length; i++) {//find out which set is older
 				if (sets[i].counter < sets[setIndex].counter) {
 					setIndex = i;
@@ -67,12 +68,12 @@ public class Cache {
 		if (type == 'W')
 			access = " write";
 		String missOrHit = "   MISS";
-		if (this.memrefs > 0)
+		if (this.memrefs == 0)
 			missOrHit = "    HIT";
 		String result = access + " " + address + "   " + intToString(tag) + " " + intToString(index) + "  " + 
 			intToString(offset) + missOrHit + "   " + intToString(this.memrefs);
-		//return result;
-		return "https://www.youtube.com/watch?v=0RpdPzJgaBw";
+		return result;
+		//return "https://www.youtube.com/watch?v=0RpdPzJgaBw";
 	}
 	
 	public String intToString(int value) {

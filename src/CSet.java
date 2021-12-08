@@ -31,22 +31,29 @@ public class CSet {
 	public int nextAdd(int tag, int offset, char type) {
 		int lineIndex = -1;//tracks which line in the lines array is going to be modified
 		for (int i = 0; i < lines.length; i++) {
-			if(lines[i].tag == tag)
+			if(lines[i] != null && lines[i].tag == tag)
 				lineIndex = i;
 		}
 		if (lineIndex == -1) {//if there was no set found with a matching tag
-			for (int i = 0; i < lines.length; i++) {//find out which line is older
-				if (lines[i].counter < lines[lineIndex].counter) {
-					lineIndex = i;
+			lineIndex = 0;
+			if (lines[lineIndex] != null) {
+				for (int i = 0; i < lines.length; i++) {//find out which line is older
+					if (lines[i] == null)
+						lineIndex = i;
+					if (lines[lineIndex] != null && lines[i].counter < lines[lineIndex].counter) {
+						lineIndex = i;
+					}
 				}
 			}
 		}
-		lines[lineIndex].setCounter(counter);
 		int result = 0;
-		if ((lines[lineIndex].getTag() == tag) && (lines[lineIndex].isValid())) {
-			result += 1;
+		if (lines[lineIndex] != null && (lines[lineIndex].getTag() == tag && lines[lineIndex].isValid()))
 			lines[lineIndex].makeDirty();
-		}
+		else 
+			result += 1;
+		lines[lineIndex] = new Line(tag, offset);
+		lines[lineIndex].setCounter(counter);
+		
 		if (type == 'W' && lines[lineIndex].isDirty())
 			result +=1;
 		lines[lineIndex].setTag(tag);
