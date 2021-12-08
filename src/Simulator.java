@@ -12,11 +12,11 @@ public class Simulator {
 	
 	
 	/**
-	 * @param scanner
+	 * @param scanner - Scanner 
 	 * @throws FileNotFoundException 
 	 * @throws IOException 
 	 */
-	Cache readFile(Scanner scanner) throws FileNotFoundException {
+	Cache readFile() throws FileNotFoundException {
 		//TODO uncomment before turning in
 		//System.out.print("Please enter a file path: ");
 		//String file = scanner.nextLine();
@@ -33,10 +33,19 @@ public class Simulator {
 		String setSize = reader.nextLine();
 		String lineSize = reader.nextLine();
 		
+		
 		//Scraping unneeded information
 		int newNumSets = Integer.parseInt(numSets.replaceAll("[^0-9]", ""));
 		int newSetSize = Integer.parseInt(setSize.replaceAll("[^0-9]", ""));
 		int newLineSize = Integer.parseInt(lineSize.replaceAll("[^0-9]", ""));
+		
+		//Checks to make sure line size is a power of 2, and exits if it is not
+		if(isPowerOfTwo(newLineSize) == false) {
+			//We can hardcode line 3 in because Dr. Kreahling said we could assume the first 3
+			//lines would always be the same.
+			System.out.println("Error on line 3: line size is not a power of 2");
+			System.exit(0);
+		}
 		
 		//Using information to create a cache object
 		Cache cache = new Cache(newNumSets, newSetSize, newLineSize);
@@ -50,6 +59,18 @@ public class Simulator {
 		reader.close();
 		return cache;
 	}
+	
+	
+	static boolean isPowerOfTwo(int n) {
+	    if(n==0) {
+	    return false;
+	    }
+	    
+	return (int)(Math.ceil((Math.log(n) / Math.log(2)))) == (int)(Math.floor(((Math.log(n) / Math.log(2)))));
+	}
+	 
+	
+	
 	
 	void simulate(String data) {
 		//First part of data
@@ -130,7 +151,7 @@ public class Simulator {
 		Scanner scanner = new Scanner(System.in);
 		
 		try {
-			readFile(scanner);
+			readFile();
 		} 
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
