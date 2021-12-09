@@ -22,7 +22,7 @@ public class Simulator {
 		//String file = scanner.nextLine();
 		
 		//TODO remove before turning in
-		String file = "./input/trace.dt.txt";
+		String file = "./input/fin1.dt.txt";
 		
 		
 		File input = new File(file);
@@ -127,7 +127,6 @@ public class Simulator {
 		//Convert offset to decimal
 		int offset = Integer.parseInt(offsetBin, 2);
 		
-		
 		System.out.println(cache.nextAddress(adr, tag, index, offset, accessChar));
 		
 	}
@@ -194,9 +193,6 @@ public class Simulator {
 		System.out.println("\n\nAccess Address    Tag   Index Offset Result Memrefs");
 		System.out.println("------ -------- ------- ----- ------ ------ -------");
 		
-		//TEMP line to see spacings
-		//System.out.println("  read" + "       58" + "       5" + "     1" + "      0" + "   MISS" + "       1");
-		System.out.println("|----|" + " |------|" + " |-----|" + " |---|" + " |----|" + " |----|" + " |-----|");
 	}
 	
 	public void printTable2(Cache cache, String finalState) {
