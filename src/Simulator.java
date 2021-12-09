@@ -175,17 +175,30 @@ public class Simulator {
 	
 	
 
-	void finalCacheState() {
+	void finalCacheState(Cache cache) {
 		System.out.println("\n\n   Final Data Cache State");
+		System.out.println("-----------------------------");
+		for(int i = 0; i < cache.getNumSets(); i++) {
+			System.out.println("set " + i);
+			for(int j = 0; j < cache.lineSize; j++) {
+				System.out.println("   line " + j + " = ");
+			}
+		}
 	}
 	
 	//void finalOutput(Cache cache, String finalState) {
 	public void printTable1(Cache cache) {
 		//Printing Cache Configuration
 		System.out.println("Cache Configuration");
+		
 		System.out.println("\n\t" + cache.getSetSize() + "-way set associative entries");
 		System.out.println("\t" + cache.getNumSets() + " sets total");
 		System.out.println("\t" + cache.getLineSize() / 4 + " words per set");
+		
+		//Check if the cache is direct mapped or associative
+			if(cache.getSetSize() == 1) {
+				System.out.println("\n\tDIRECT MAPPED CACHE");
+			}
 		
 		System.out.println("\nResults for Each Reference");
 		
@@ -207,7 +220,7 @@ public class Simulator {
 		
 		//if f was set as f or F when the program was initially ran, run finalCacheState()
 		if(finalState.equals("f") || finalState.equals("F")) {
-			finalCacheState();
+			finalCacheState(cache);
 		}
 	}
 	
