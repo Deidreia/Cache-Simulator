@@ -4,13 +4,33 @@
  * @author Daniel Foster
  * @author Jakob Knight
  *
+ * Simulates how a cache would work
  */
 public class Cache {
+	/**
+	 * size of the line
+	 */
 	int lineSize;
+	/**
+	 * counter tracking how old each value is for the purpose of replacing old values for new ones
+	 */
 	int counter = 0;
+	/**
+	 * an array of CSets with a size depending on the constructor's numSets parameter
+	 */
 	CSet[] sets;
+	/**
+	 * value tracking memory references. This is useful because it tracks
+	 * not only memory references, but can indicate a hit or miss
+	 */
 	int memrefs = 0;
 	
+	/**
+	 * Constructor for Cache
+	 * @param numSets  number of sets in the cache
+	 * @param setSize  number of lines per set
+	 * @param lineSize the size of the line
+	 */
 	public Cache(int numSets, int setSize, int lineSize) {
 		this.sets = new CSet[numSets];
 		for (int i = 0; i < numSets; i++) {
@@ -20,6 +40,7 @@ public class Cache {
 	}
 
 	/**
+	 * lineSize getter
 	 * @return the lineSize
 	 */
 	public int getLineSize() {
@@ -27,6 +48,7 @@ public class Cache {
 	}
 
 	/**
+	 * lineSize setter
 	 * @param lineSize the lineSize to set
 	 */
 	public void setLineSize(int lineSize) {
@@ -49,33 +71,38 @@ public class Cache {
 	 */
 	public String nextAddress(String address, int tag, int index, int offset, char type) {
 		counter += 1;
-		int setIndex = -1;//tracks which set in the sets array is going to be modified
+		int setIndex = -1;//tracks which set in the sets array is going to be modified. -1 indicates no matching index
 		for (int i = 0; i < sets.length; i++) {
 			if(sets[i].index == index)
-				setIndex = i;
+				setIndex = i;//overwrite setIndex's -1 value to indicate a match was found at index i
 		}
 		if (setIndex == -1) {//if there was no set found with a matching index
-			setIndex = 0;
+			setIndex = 0;//start by assuming the set at index 0 is going to be replaced
 			for (int i = 0; i < sets.length; i++) {//find out which set is older
 				if (sets[i].counter < sets[setIndex].counter) {
-					setIndex = i;
+					setIndex = i;//at this point, set index will be holding the index of the set that will be modified
 				}
 			}
 		}
-		sets[setIndex].setCounter(counter);
-		this.memrefs = sets[setIndex].nextAdd(tag, offset, type);
-		String access = "  read";
+		sets[setIndex].setCounter(counter);//update the counter so that the age of this set can be tracked
+		this.memrefs = sets[setIndex].nextAdd(tag, offset, type);//pass values to the set so that it can update line
+		String access = "  read";//calculate read or write
 		if (type == 'W')
 			access = " write";
-		String missOrHit = "   MISS";
+		String missOrHit = "   MISS";//calculate hit or miss
 		if (this.memrefs == 0)
 			missOrHit = "    HIT";
 		String result = access + " " + address + "   " + intToString(tag) + " " + intToString(index) + "  " + 
 			intToString(offset) + missOrHit + "   " + intToString(this.memrefs);
 		return result;
-		//return "https://www.youtube.com/watch?v=0RpdPzJgaBw";
+		//return "This is a drill";
 	}
 	
+	/**
+	 * Takes in an integer and turns it into a 5 character string
+	 * @param  value the integer to be converted
+	 * @return a 5 character string with spaces first, then the given integer
+	 */
 	public String intToString(int value) {
 		String result = String.valueOf(value);
 		for (int i = 0; i < (5-result.length()); i++) {

@@ -1,8 +1,14 @@
 import java.util.Scanner;
-
+/**
+ * @author Jakob Knight
+ * Tests the cache simulation through manual/direct calls to Cache's nextAddress() function
+ */
 public class JakobsAngerInducingTester {
 
 	public static void main(String[] args) {
+		//  					 |  |  |
+		//                       |  |  |  CHANGE THESE NUMBERS WHEN CHANGING TEST
+		// 						 V  V  V
 		Cache myCash = new Cache(2, 2, 2);
 		Scanner in = new Scanner(System.in);
 		boolean looper = true;
