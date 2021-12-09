@@ -16,13 +16,13 @@ public class Simulator {
 	 * @throws FileNotFoundException 
 	 * @throws IOException 
 	 */
-	Cache readFile() throws FileNotFoundException {
+	Cache readFile(String finalState) throws FileNotFoundException {
 		//TODO uncomment before turning in
 		//System.out.print("Please enter a file path: ");
 		//String file = scanner.nextLine();
 		
 		//TODO remove before turning in
-		String file = "./input/assoc.dt.txt";
+		String file = "./input/trace.dt.txt";
 		
 		
 		File input = new File(file);
@@ -50,11 +50,16 @@ public class Simulator {
 		//Using information to create a cache object
 		Cache cache = new Cache(newNumSets, newSetSize, newLineSize);
 		
+		//Printing out the table
+		printTable1(cache);
+		
 		//Processing the rest of the the data in the file.
 		while(reader.hasNextLine()) {
 			String currLine = reader.nextLine();
-			simulate(currLine, cache);
+			getValues(currLine, cache, finalState);
 		}
+		
+		printTable2(cache, finalState);
 		
 		reader.close();
 		return cache;
@@ -72,11 +77,13 @@ public class Simulator {
 	
 	
 	
-	void simulate(String data, Cache cache) {
+	void getValues(String data, Cache cache, String finalState) {
 		//Memory address of the data
 		String adr = lineSplitter(data, 1);
 		//What time of access the current line is
 		String accessType = lineSplitter(data, 2);
+		//Turning accessType into a char
+		char accessChar = accessType.charAt(0);
 		//Size in bytes to either read or write
 		String accessSize = lineSplitter(data, 3);
 		
@@ -110,7 +117,6 @@ public class Simulator {
 		//Convert tag to decimal
 		int tag = Integer.parseInt(tagBin, 2);
 		
-		
 		//Grabs the bits that make up the index
 		String indexBin = adrToBin.substring(tagSize, tagSize + indexSize);
 		//Convert index to decimal
@@ -120,6 +126,10 @@ public class Simulator {
 		String offsetBin = adrToBin.substring(adrToBin.length() - offsetSize);
 		//Convert offset to decimal
 		int offset = Integer.parseInt(offsetBin, 2);
+		
+		
+		System.out.println(cache.nextAddress(adr, tag, index, offset, accessChar));
+		
 	}
 	
 	
@@ -165,14 +175,13 @@ public class Simulator {
 	}
 	
 	
-	/**
-	 * 
-	 */
+
 	void finalCacheState() {
-		System.out.println("Testing to make sure we get to finalCacheState");
+		System.out.println("\n\n   Final Data Cache State");
 	}
 	
-	void finalOutput(Cache cache, String finalState) {
+	//void finalOutput(Cache cache, String finalState) {
+	public void printTable1(Cache cache) {
 		//Printing Cache Configuration
 		System.out.println("Cache Configuration");
 		System.out.println("\n\t" + cache.getSetSize() + "-way set associative entries");
@@ -186,9 +195,11 @@ public class Simulator {
 		System.out.println("------ -------- ------- ----- ------ ------ -------");
 		
 		//TEMP line to see spacings
-		System.out.println("  read" + "       58" + "       5" + "     1" + "      0" + "   MISS" + "       1");
-		
-		
+		//System.out.println("  read" + "       58" + "       5" + "     1" + "      0" + "   MISS" + "       1");
+		System.out.println("|----|" + " |------|" + " |-----|" + " |---|" + " |----|" + " |----|" + " |-----|");
+	}
+	
+	public void printTable2(Cache cache, String finalState) {
 		System.out.println("\n\nSimulation Summary Statistics");
 		System.out.println("-----------------------------");
 		System.out.println("Total hits                 :");
@@ -202,7 +213,6 @@ public class Simulator {
 		if(finalState.equals("f") || finalState.equals("F")) {
 			finalCacheState();
 		}
-		
 	}
 	
 	/**
@@ -213,13 +223,12 @@ public class Simulator {
 		Cache cache = null;
 		
 		try {
-			cache = readFile();
+			cache = readFile(finalState);
 		} 
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		
-		finalOutput(cache, finalState);
 		scanner.close();
 	}
 	
