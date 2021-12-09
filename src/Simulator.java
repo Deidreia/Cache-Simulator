@@ -53,7 +53,7 @@ public class Simulator {
 		//Processing the rest of the the data in the file.
 		while(reader.hasNextLine()) {
 			String currLine = reader.nextLine();
-			simulate(currLine);
+			simulate(currLine, cache);
 		}
 		
 		reader.close();
@@ -72,19 +72,71 @@ public class Simulator {
 	
 	
 	
-	void simulate(String data) {
-		//First part of data
+	void simulate(String data, Cache cache) {
+		//Memory address of the data
 		String adr = lineSplitter(data, 1);
-		//Second part of data
-		String access = lineSplitter(data, 2);
-		//Third part of data (offset maybe? need to check again to make sure)
-		String offset = lineSplitter(data, 3);
+		//What time of access the current line is
+		String accessType = lineSplitter(data, 2);
+		//Size in bytes to either read or write
+		String accessSize = lineSplitter(data, 3);
+		
+		//Converting the address into binary from hex
+		int tmpNum = (Integer.parseInt(adr, 16));
+		String adrToBin = (Integer.toBinaryString(tmpNum));;
+		
+		//Used to get leading 0s back, so we have 4(adress.length) bits
+		String adrLen = "%" + String.valueOf(adr.length() * 4) + "s";
+		adrToBin = String.format(adrLen, adrToBin).replace(" ", "0");
 		
 
 		
-
+		// Number of bytes to get to whatever line size is
+		int offsetSize = calcOffset(cache);
+		// Number of by to get to whatever set size is
+		int indexSize = (int) (Math.log(cache.getNumSets()) / Math.log(2));
+		// Number of bytes left after offset and index
+		int tagSize = (adr.length() * 4 - offsetSize - indexSize);
+		
+		//Grabs the bits that make up the tag
+		String tagBin = adrToBin.substring(0, tagSize);
+		
+		//If tag size was zero, it would cause a crash
+		if(tagSize == 0) {
+			for(int i = 0; i < adrToBin.length(); i++) {
+				tagBin += "0";
+			}
+		}
+		
+		//Convert tag to decimal
+		int tag = Integer.parseInt(tagBin, 2);
+		
+		
+		//Grabs the bits that make up the index
+		String indexBin = adrToBin.substring(tagSize, tagSize + indexSize);
+		//Convert index to decimal
+		int index = Integer.parseInt(indexBin, 2);
+		
+		//Grabs the bits that make up the offset
+		String offsetBin = adrToBin.substring(adrToBin.length() - offsetSize);
+		//Convert offset to decimal
+		int offset = Integer.parseInt(offsetBin, 2);
 	}
 	
+	
+	public int calcOffset(Cache cache) {
+		
+		// Number of bytes to get to whatever line size is
+		String offsetSize = Integer.toBinaryString(cache.getLineSize());
+		// Converting line number into binary
+		offsetSize = String.format("%4s", offsetSize).replace(" ", "0");
+				
+		//Removing 1 from answer above, so that we have the number of bytes it takes to get to
+		//line size, not including line size
+		//ex 8  = 1000, to represent 8, we need 3 bits because 000 - 111 = 0 - 7, which is 8 spaces
+		int finalOffsetSize = offsetSize.length() -1;
+		
+		return finalOffsetSize;
+	}
 	
 	public static String lineSplitter(String line, int index) {
 		int cnt = 0;
@@ -120,15 +172,24 @@ public class Simulator {
 		System.out.println("Testing to make sure we get to finalCacheState");
 	}
 	
-	void finalOutput(String finalState) {
-		System.out.println("Access Address    Tag   Index Offset Result Memrefs");
+	void finalOutput(Cache cache, String finalState) {
+		//Printing Cache Configuration
+		System.out.println("Cache Configuration");
+		System.out.println("\n\t" + cache.getSetSize() + "-way set associative entries");
+		System.out.println("\t" + cache.getNumSets() + " sets total");
+		System.out.println("\t" + cache.getLineSize() / 4 + " words per set");
+		
+		System.out.println("\nResults for Each Reference");
+		
+		//Printing Columns
+		System.out.println("\n\nAccess Address    Tag   Index Offset Result Memrefs");
 		System.out.println("------ -------- ------- ----- ------ ------ -------");
 		
+		//TEMP line to see spacings
+		System.out.println("  read" + "       58" + "       5" + "     1" + "      0" + "   MISS" + "       1");
 		
-		//TODO Add read address, tag, index, offset, result, mem refs here
 		
-		
-		System.out.println("Simulation Summary Statistics");
+		System.out.println("\n\nSimulation Summary Statistics");
 		System.out.println("-----------------------------");
 		System.out.println("Total hits                 :");
 		System.out.println("Total misses               :");
@@ -149,19 +210,17 @@ public class Simulator {
 	 */
 	void go(String finalState){
 		Scanner scanner = new Scanner(System.in);
+		Cache cache = null;
 		
 		try {
-			readFile();
+			cache = readFile();
 		} 
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		
-		
-		
-		
+		finalOutput(cache, finalState);
 		scanner.close();
-		finalOutput(finalState);
 	}
 	
 	

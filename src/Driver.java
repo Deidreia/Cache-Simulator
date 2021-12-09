@@ -1,5 +1,3 @@
-
-
 /**
  * @author Daniel Foster
  * @author Jakob Knight
@@ -22,6 +20,7 @@ public class Driver {
 				Simulator Sim = new Simulator();
 				Sim.go(args[0]);	
 			}
+			//If there are too many arguments, quit
 			catch (ArrayIndexOutOfBoundsException e){
 				System.out.println("Usage: Driver [F/f]");
 				System.exit(0);

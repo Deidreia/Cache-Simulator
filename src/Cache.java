@@ -7,6 +7,18 @@
  * Simulates how a cache would work
  */
 public class Cache {
+	
+	/**
+	 * Number of sets specified in each file
+	 */
+	int numSets;
+	/**
+	 * Set size specified in each file
+	 */
+	int setSize;
+	/**
+	 * @return the numSets
+	 */
 	/**
 	 * size of the line
 	 */
@@ -36,6 +48,8 @@ public class Cache {
 		for (int i = 0; i < numSets; i++) {
 			sets[i] = new CSet(setSize);
 		}
+		this.numSets = numSets;
+		this.setSize = setSize;
 		this.lineSize = lineSize;
 	}
 
@@ -109,6 +123,20 @@ public class Cache {
 			result = " " + result;
 		}
 		return result;
+	}
+	
+	/**
+	 * @return numSets
+	 */
+	public int getNumSets() {
+		return numSets;
+	}
+
+	/**
+	 * @return the setSize
+	 */
+	public int getSetSize() {
+		return setSize;
 	}
 	
 	
