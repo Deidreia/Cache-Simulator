@@ -99,6 +99,7 @@ public class Cache {
 			}
 		}
 		sets[setIndex].setCounter(counter);//update the counter so that the age of this set can be tracked
+		sets[setIndex].setIndex(index);
 		this.memrefs = sets[setIndex].nextAdd(tag, offset, type);//pass values to the set so that it can update line
 		String access = "  read";//calculate read or write
 		if (type == 'W')
