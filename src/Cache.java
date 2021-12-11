@@ -106,7 +106,7 @@ public class Cache {
 		String missOrHit = "   MISS";//calculate hit or miss
 		if (this.memrefs == 0)
 			missOrHit = "    HIT";
-		String result = access + "   " + massageString(address) + "     " + intToString(tag) + "  " + 
+		String result = access + "   " + massageString(address) + "   " + intToString(tag) + " " + 
 			intToString(index) + "  " + intToString(offset) + massageString(missOrHit) + "   " + intToString(this.memrefs);
 		return result;
 		//return "This is a drill";
@@ -119,8 +119,9 @@ public class Cache {
 	 */
 	public String intToString(int value) {
 		String result = String.valueOf(value);
-		for (int i = 0; i < (5-result.length()); i++) {
-			result += " ";
+		int length = 5-result.length();
+		for (int i = 0; i < (length); i++) {
+			result = " " + result;
 		}
 		return result;
 	}
