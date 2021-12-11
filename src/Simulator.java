@@ -18,13 +18,11 @@ public class Simulator {
 	 * @throws FileNotFoundException - stops the program if a file is not found
 	 * @throws IOException - stops the program if there is an input/output error
 	 */
-	Cache readFile(String finalState) throws FileNotFoundException {
+	Cache readFile(Scanner scanner, String finalState) throws FileNotFoundException {
 		//TODO uncomment before turning in
-		//System.out.print("Please enter a file path: ");
-		//String file = scanner.nextLine();
+		System.out.print("Please enter a file path: ");
+		String file = scanner.nextLine();
 		
-		//TODO remove before turning in
-		String file = "./input/trace.dt.txt";
 		
 		ArrayList<ArrayList<String>> tmpArr = new ArrayList<ArrayList<String>>();
 		
@@ -87,6 +85,7 @@ public class Simulator {
 	 
 	/**
 	 * @param arr -  Array consisting of [cache line][address, address in binary, accesstype, access size, tag, tag in binary, index, index in binary, offset, and offset in binary]
+	 * This is by far the most severely underdeveloped function
 
 	 */
 	public ArrayList<String> simulate(Cache cache, ArrayList<ArrayList<String>> arr) {
@@ -94,16 +93,14 @@ public class Simulator {
 		for(int i = 0; i < arr.size(); i++) {
 			String currAdr =(arr.get(i).get(0));
 			int currTag = Integer.parseInt(arr.get(i).get(4));
-			int currIndex = Integer.parseInt(arr.get(i).get(6));
+			//int currIndex = Integer.parseInt(arr.get(i).get(6));
 			int currOff = Integer.parseInt(arr.get(i).get(8));
-			int currAccSize = Integer.parseInt(arr.get(i).get(3));
+			//int currAccSize = Integer.parseInt(arr.get(i).get(3));
 			
-			
-			
-			System.out.println(currAdr + " " + currTag + " " + currIndex + " " + currOff + " " + currAccSize);
-			//outputArr.add(currTag, "byte addresses " + currAdr);
+			//Making a string to represent each line of the cache
 			outputArr.add("byte addresses " + currAdr + "-" + (currAdr + currOff) + ", tag " + currTag);
 		}
+		
 		return outputArr;
 	}
 	
@@ -287,11 +284,7 @@ public class Simulator {
 		for(int i = 0; i < cache.getNumSets(); i++) {
 			System.out.println("set " + i);
 			for(int j = 0; j < cache.getSetSize(); j++) {
-				System.out.print("   line " + j + " = ");
-				if(arr.get(i).get(1).equals("R")) {
-					System.out.println("byte address " + arr.get(4).get(0) + "-" + 
-							(Integer.parseInt(arr.get(4).get(0)) + Integer.parseInt(arr.get(4).get(2))) + ", ");
-				}
+				System.out.println("   line " + j + " = ");
 			}
 		}
 	}
@@ -304,7 +297,7 @@ public class Simulator {
 		Cache cache = null;
 		
 		try {
-			cache = readFile(finalState);
+			cache = readFile(scanner, finalState);
 		} 
 		catch (FileNotFoundException e) {
 			e.printStackTrace();
