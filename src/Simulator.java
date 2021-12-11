@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -12,9 +13,10 @@ public class Simulator {
 	
 	
 	/**
+	 * Reads the file and splits it into necessary data
 	 * @param scanner - Scanner 
-	 * @throws FileNotFoundException 
-	 * @throws IOException 
+	 * @throws FileNotFoundException - stops the program if a file is not found
+	 * @throws IOException - stops the program if there is an input/output error
 	 */
 	Cache readFile(String finalState) throws FileNotFoundException {
 		//TODO uncomment before turning in
@@ -22,8 +24,9 @@ public class Simulator {
 		//String file = scanner.nextLine();
 		
 		//TODO remove before turning in
-		String file = "./input/fin1.dt.txt";
+		String file = "./input/trace.dt.txt";
 		
+		ArrayList<ArrayList<String>> tmpArr = new ArrayList<ArrayList<String>>();
 		
 		File input = new File(file);
 		Scanner reader = new Scanner(input);
@@ -56,10 +59,18 @@ public class Simulator {
 		//Processing the rest of the the data in the file.
 		while(reader.hasNextLine()) {
 			String currLine = reader.nextLine();
-			getValues(currLine, cache, finalState);
+			tmpArr.add(getValues(currLine, cache, finalState));
 		}
-		
+		//prints the second half of the table
 		printTable2(cache, finalState);
+		
+		simulate(cache, tmpArr);
+		
+		
+		//if f was set as f or F when the program was initially ran, run finalCacheState()
+		if(finalState.equals("f") || finalState.equals("F")) {
+			finalCacheState(cache, tmpArr);
+		}
 		
 		reader.close();
 		return cache;
@@ -74,10 +85,40 @@ public class Simulator {
 	return (int)(Math.ceil((Math.log(n) / Math.log(2)))) == (int)(Math.floor(((Math.log(n) / Math.log(2)))));
 	}
 	 
+	/**
+	 * @param arr -  Array consisting of [cache line][address, address in binary, accesstype, access size, tag, tag in binary, index, index in binary, offset, and offset in binary]
+
+	 */
+	public void simulate(Cache cache, ArrayList<ArrayList<String>> arr) {
+		ArrayList<String> outputArr = new ArrayList<String>(arr.size());
+		for(int i = 0; i < arr.size(); i++) {
+			String currAdr =(arr.get(i).get(0));
+			int currTag = Integer.parseInt(arr.get(i).get(4));
+			int currIndex = Integer.parseInt(arr.get(i).get(6));
+			int currOff = Integer.parseInt(arr.get(i).get(8));
+			int currAccSize = Integer.parseInt(arr.get(i).get(3));
+			
+			
+			
+			System.out.println(currAdr + " " + currTag + " " + currIndex + " " + currOff + " " + currAccSize);
+			//outputArr.add(currTag, "byte addresses " + currAdr);
+			outputArr.add("byte addresses " + currAdr + "-" + (currAdr + currOff) + ", tag " + currTag);
+		}
+		System.out.println(outputArr.get(0));
+	}
 	
 	
-	
-	void getValues(String data, Cache cache, String finalState) {
+	/**
+	 * @param data - address, accessType, and accessSize squeezed together, and separated by ":"
+	 * @param cache - cache to perform operations on
+	 * @param finalState - whether or not to print out final cache state data
+	 * @return - Array consisting of address, access type, and access size
+	 */
+	ArrayList<String> getValues(String data, Cache cache, String finalState) {
+		
+		//Array consisting of address, accesstype, accesstype, tag, index, and offset
+		ArrayList<String> dataArr = new ArrayList<String>();
+		
 		//Memory address of the data
 		String adr = lineSplitter(data, 1);
 		//What time of access the current line is
@@ -86,6 +127,8 @@ public class Simulator {
 		char accessChar = accessType.charAt(0);
 		//Size in bytes to either read or write
 		String accessSize = lineSplitter(data, 3);
+		
+		
 		
 		//Converting the address into binary from hex
 		int tmpNum = (Integer.parseInt(adr, 16));
@@ -129,6 +172,18 @@ public class Simulator {
 		
 		System.out.println(cache.nextAddress(adr, tag, index, offset, accessChar));
 		
+		dataArr.add(adr);
+		dataArr.add(adrToBin);
+		dataArr.add(accessType);
+		dataArr.add(accessSize);
+		dataArr.add(String.valueOf(tag));
+		dataArr.add(tagBin);
+		dataArr.add(String.valueOf(index));
+		dataArr.add(indexBin);
+		dataArr.add(String.valueOf(offset));
+		dataArr.add(offsetBin);
+		//[address, address in binary, accesstype, access size, tag, tag in binary, index, index in binary, offset, and offset in binary]
+		return dataArr;
 	}
 	
 	
@@ -147,6 +202,11 @@ public class Simulator {
 		return finalOffsetSize;
 	}
 	
+	/**
+	 * @param line - line of data you want to split, separated by a ":"
+	 * @param index - how many : to skip until you start recording data
+	 * @return returns a string of data between two ":"
+	 */
 	public static String lineSplitter(String line, int index) {
 		int cnt = 0;
 		String tmp = "";
@@ -172,21 +232,10 @@ public class Simulator {
 		}
 		return tmp;
 	}
-	
-	
 
-	void finalCacheState(Cache cache) {
-		System.out.println("\n\n   Final Data Cache State");
-		System.out.println("-----------------------------");
-		for(int i = 0; i < cache.getNumSets(); i++) {
-			System.out.println("set " + i);
-			for(int j = 0; j < cache.lineSize; j++) {
-				System.out.println("   line " + j + " = ");
-			}
-		}
-	}
-	
-	//void finalOutput(Cache cache, String finalState) {
+	/**
+	 * @param cache - Printing the first part of the cache, and it's associated data
+	 */
 	public void printTable1(Cache cache) {
 		//Printing Cache Configuration
 		System.out.println("Cache Configuration");
@@ -208,6 +257,10 @@ public class Simulator {
 		
 	}
 	
+	/**
+	 * @param cache - Printing the second part of the cache, and it's associated data
+	 * @param finalState - whether or not to print out final cache state data
+	 */
 	public void printTable2(Cache cache, String finalState) {
 		System.out.println("\n\nSimulation Summary Statistics");
 		System.out.println("-----------------------------");
@@ -222,14 +275,29 @@ public class Simulator {
 		double mRatio = 1 - hRatio;
 		System.out.println("Miss ratio                 : " + mRatio);
 		
-		//if f was set as f or F when the program was initially ran, run finalCacheState()
-		if(finalState.equals("f") || finalState.equals("F")) {
-			finalCacheState(cache);
+	}
+	
+	/**
+	 * @param cache - Cache to print the final state of
+	 * @param arr - Array consisting of [cache line] [address, accesstype, accesstype, tag, index, and offset]
+	 */
+	void finalCacheState(Cache cache, ArrayList<ArrayList<String>> arr) {
+		System.out.println("\n\n   Final Data Cache State");
+		System.out.println("-----------------------------");
+		for(int i = 0; i < cache.getNumSets(); i++) {
+			System.out.println("set " + i);
+			for(int j = 0; j < cache.getSetSize(); j++) {
+				System.out.print("   line " + j + " = ");
+				if(arr.get(i).get(1).equals("R")) {
+					System.out.println("byte address " + arr.get(4).get(0) + "-" + 
+							(Integer.parseInt(arr.get(4).get(0)) + Integer.parseInt(arr.get(4).get(2))) + ", ");
+				}
+			}
 		}
 	}
 	
 	/**
-	 * @param finalState
+	 * @param finalState - whether or not to print out final cache state data
 	 */
 	void go(String finalState){
 		Scanner scanner = new Scanner(System.in);
