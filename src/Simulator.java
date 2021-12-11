@@ -89,7 +89,7 @@ public class Simulator {
 	 * @param arr -  Array consisting of [cache line][address, address in binary, accesstype, access size, tag, tag in binary, index, index in binary, offset, and offset in binary]
 
 	 */
-	public void simulate(Cache cache, ArrayList<ArrayList<String>> arr) {
+	public ArrayList<String> simulate(Cache cache, ArrayList<ArrayList<String>> arr) {
 		ArrayList<String> outputArr = new ArrayList<String>(arr.size());
 		for(int i = 0; i < arr.size(); i++) {
 			String currAdr =(arr.get(i).get(0));
@@ -104,7 +104,7 @@ public class Simulator {
 			//outputArr.add(currTag, "byte addresses " + currAdr);
 			outputArr.add("byte addresses " + currAdr + "-" + (currAdr + currOff) + ", tag " + currTag);
 		}
-		System.out.println(outputArr.get(0));
+		return outputArr;
 	}
 	
 	
