@@ -31,11 +31,24 @@ public class Cache {
 	 * an array of CSets with a size depending on the constructor's numSets parameter
 	 */
 	CSet[] sets;
+	
 	/**
 	 * value tracking memory references. This is useful because it tracks
 	 * not only memory references, but can indicate a hit or miss
 	 */
 	int memrefs = 0;
+	/**
+	 * total memory references
+	 */
+	int totalMemrefs = 0;
+	/**
+	 * tracks total hits
+	 */
+	int hits = 0;
+	/**
+	 * tracks memory references
+	 */
+	int references = 0;
 	
 	/**
 	 * Constructor for Cache
@@ -105,14 +118,60 @@ public class Cache {
 		if (type == 'W')
 			access = " write";
 		String missOrHit = "   MISS";//calculate hit or miss
-		if (this.memrefs == 0)
+		if (this.memrefs == 0) {
 			missOrHit = "    HIT";
+			this.hits += 1;
+		}
 		String result = access + "   " + massageString(address) + "   " + intToString(tag) + " " + 
 			intToString(index) + "  " + intToString(offset) + massageString(missOrHit) + "   " + intToString(this.memrefs);
+		this.totalMemrefs += memrefs;
+		this.references += 1;
 		return result;
 		//return "This is a drill";
 	}
 	
+	/**
+	 * @return the memrefs
+	 */
+	public int getTotalMemrefs() {
+		return totalMemrefs;
+	}
+
+	/**
+	 * @param memrefs the memrefs to set
+	 */
+	public void setMemrefs(int memrefs) {
+		this.memrefs = memrefs;
+	}
+
+	/**
+	 * @return the hits
+	 */
+	public int getHits() {
+		return this.hits;
+	}
+
+	/**
+	 * @param hits the hits to set
+	 */
+	public void setHits(int hits) {
+		this.hits = hits;
+	}
+
+	/**
+	 * @return the references
+	 */
+	public int getReferences() {
+		return this.references;
+	}
+
+	/**
+	 * @param references the references to set
+	 */
+	public void setReferences(int references) {
+		this.references = references;
+	}
+
 	/**
 	 * Takes in an integer and turns it into a 5 character string
 	 * @param  value the integer to be converted

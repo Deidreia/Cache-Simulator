@@ -211,12 +211,16 @@ public class Simulator {
 	public void printTable2(Cache cache, String finalState) {
 		System.out.println("\n\nSimulation Summary Statistics");
 		System.out.println("-----------------------------");
-		System.out.println("Total hits                 :");
-		System.out.println("Total misses               :");
-		System.out.println("Total accesses             :");
-		System.out.println("Total memory references    :");
-		System.out.println("Hit ratio                  :");
-		System.out.println("Miss ratio                 :");
+		System.out.println("Total hits                 : " + cache.getHits());
+		System.out.println("Total misses               : " + (cache.getReferences() - cache.getHits()));
+		System.out.println("Total accesses             : " + cache.getReferences());
+		System.out.println("Total memory references    : " + cache.getTotalMemrefs());
+		double hitter = cache.getHits();
+		double refffs = cache.getReferences();//It's too close to due time to make these names make sense
+		double hRatio = (hitter / refffs);
+		System.out.println("Hit ratio                  : " + hRatio);
+		double mRatio = 1 - hRatio;
+		System.out.println("Miss ratio                 : " + mRatio);
 		
 		//if f was set as f or F when the program was initially ran, run finalCacheState()
 		if(finalState.equals("f") || finalState.equals("F")) {
